@@ -30,15 +30,21 @@ Gathering feedback to personalize user schedules**
 
 ## Skateboard
 
-**Create todo- list/ hobbies list/ daily tasks list (CRUD each of these)**
+**Create todo-list/ hobbies list/ daily tasks list (CRUD each of these)
+this will be a backend. Creating a rudimentary frontend as well.**
 
-**Connection to google calendar api to manually schedule times**
 
 ## Bike
-**Connection to google calendar api to manually schedule times**
+**Connection to google calendar api to manually schedule times. (I want the each
+of the three lists to be separate from the calendar then be able to be assigned
+to different times later as the user or optimizer sees fit.)**
 
 ## Car
-**Create the ability to optimally schedule tasks without much user input**
+**Create the ability to optimally schedule tasks without much user input. I am
+still working on the specifics but hopefully it will create priorities based on
+when todo list items need to be done, as well as when daily tasks need to be done
+as well into taking into account how much time each will take. Next it will prioritize
+hobbies and habits that the user want to include in their day.**
 
 
 ## Personal Achievement Goals:
