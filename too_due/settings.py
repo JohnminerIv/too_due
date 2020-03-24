@@ -132,4 +132,4 @@ GOOGLE_SCOPE = 'https://www.googleapis.com/auth/calendar'
 GOOGLE_CRED = "credentials.json"
 
 # This is new
-del DATABASES['default']['OPTIONS']['sslmode']
+# del DATABASES['default']['OPTIONS']['sslmode']
