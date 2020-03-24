@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'landing_home',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -118,3 +119,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#Variable that specifies the data you want to access
+GOOGLE_SCOPE = 'https://www.googleapis.com/auth/calendar'
+
+GOOGLE_CRED = "credentials.json"

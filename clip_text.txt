@@ -1,0 +1,10 @@
+u = User.objects.get(username=request.user)
+
+if hasattr(u, 'googleauthenication'):
+
+u.googleauthenication.credentials
+
+auth = GoogleAuthenication(user=u, credentials=jsonpickle.encode(creds))
+auth.save()
+
+lcheg2ck3etuuutckkiargsnt0

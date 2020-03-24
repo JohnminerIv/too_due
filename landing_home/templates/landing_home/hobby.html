@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% for hobby in hobbies %}
+<a href="{{ hobby.name }}/update">{{ hobby.name}}</a>
+{% endfor %}
+<form action="/hobbies/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

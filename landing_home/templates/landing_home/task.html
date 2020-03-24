@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% for task in tasks %}
+<a href="{{ task.name }}/">{{ task.name}}</a>
+{% endfor %}
+<form action="/tasks/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
