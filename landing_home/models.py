@@ -76,6 +76,7 @@ class ScheduledTask(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     calendar_id = models.CharField(max_length=100)
+    objects = ScheduledTaskManager()
 
 
 class NewToDoForm(forms.Form):
@@ -104,6 +105,7 @@ class ScheduledToDo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     to_do = models.ForeignKey(ToDo, on_delete=models.CASCADE)
     calendar_id = models.CharField(max_length=100)
+    objects = ScheduledToDoManager()
 
 
 class ScheduleForm(forms.Form):

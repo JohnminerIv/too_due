@@ -16,5 +16,7 @@ urlpatterns = [
     path('to_dos/', views.todos, name='to_dos'),
     path('to_dos/<str:to_do>/update/', views.to_dos_update, name='to_dos_update'),
     path('to_dos/<str:to_do>/delete/', views.to_dos_delete, name='to_dos_delete'),
-    path('hobbies/<str:hobby>/schedule/', views.hobbies_schedule, name='schedule')
+    path('hobbies/<str:hobby>/schedule/', views.hobbies_schedule, name='hobbies_schedule'),
+    path('tasks/<str:task>/schedule/', views.tasks_schedule, name='tasks_schedule'),
+    path('to_dos/<str:to_do>/schedule/', views.hobbies_schedule, name='to_dos_schedule')
 ]

@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 {% for to_do in to_dos %}
-<a href="{{ to_do.name }}/">{{ to_do.name}}</a>
+<a href="/to_dos/{{ to_do.name }}">{{ to_do.name}}</a>
 {% endfor %}
 <form action="/to_do/" method="post">
     {% csrf_token %}

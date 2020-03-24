@@ -4,11 +4,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 import jsonpickle
-from django import forms
 from datetime import datetime
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
-from .models import LoginForm, NewUserForm, GoogleAuthenication, NewHobbyForm, Hobby, NewTaskForm, Task, NewToDoForm, ToDo, ScheduleForm, ScheduledHobby
+from .models import LoginForm, NewUserForm, GoogleAuthenication, NewHobbyForm, Hobby, ScheduledHobby, NewTaskForm, Task, ScheduledTask, NewToDoForm, ToDo, ScheduledToDo, ScheduleForm
 
 
 def index(request):
@@ -182,7 +181,7 @@ def tasks(request):
                 task.save()
         form = NewTaskForm()
         tasks = Task.objects.filter(user=request.user)
-        return render(request, 'landing_home/tasks.html', {'form': form, 'tasks': tasks})
+        return render(request, 'landing_home/task.html', {'form': form, 'tasks': tasks})
     return HttpResponse('Please make an account')
 
 
@@ -193,10 +192,45 @@ def tasks_update(request, task):
             task = Task.objects.get(user=request.user, name=task)
             task.name = form.cleaned_data['task_name']
             task.save()
-            route = '/tasks/'+str(task.name)+'/'
+            route = '/tasks/'+str(task.name)+'/update'
             return HttpResponseRedirect(route)
     else:
         form = NewTaskForm()
+        task = Task.objects.get(user=request.user, name=task)
+        return render(request, 'landing_home/task_update.html', {'form': form, 'task': task})
+
+
+def tasks_schedule(request, task):
+    if request.method == 'POST':
+        form = ScheduleForm(request.POST)
+        if form.is_valid():
+            if hasattr(request.user, 'googleauthenication'):
+                creds = jsonpickle.decode(request.user.googleauthenication.credentials)
+            else:
+                creds = None
+            # If an authentication token does not exist already,
+            # create one and store it in the session.
+            if not creds or not creds.valid:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    settings.GOOGLE_CRED, settings.GOOGLE_SCOPE)
+                creds = flow.run_local_server(port=0)
+                auth = GoogleAuthenication(user=request.user, credentials=jsonpickle.encode(creds))
+                auth.save()
+            service = build('calendar', 'v3', credentials=creds)
+
+            # Call the Calendar API
+            # now = datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+
+            body = {"start": {"date": str(form.cleaned_data['start'])[:10]}, "end": {"date": str(form.cleaned_data['end'])[:10]}, "summary": task}
+            event = service.events().insert(calendarId='primary', body=body).execute()
+            id = event['id']
+            task = Task.objects.get(user=request.user, name=task)
+            item = ScheduledTask.objects.create_scheduled_task(user=request.user, task=task, id=id)
+            item.save()
+            route = '/tasks/'+str(task.name)+'/schedule'
+            return HttpResponseRedirect(route)
+    else:
+        form = ScheduleForm()
         task = Task.objects.get(user=request.user, name=task)
         return render(request, 'landing_home/task_update.html', {'form': form, 'task': task})
 
@@ -233,10 +267,45 @@ def to_dos_update(request, to_do):
             to_do = ToDo.objects.get(user=request.user, name=to_do)
             to_do.name = form.cleaned_data['to_do_name']
             to_do.save()
-            route = '/to_do/'+str(to_do.name)+'/'
+            route = '/to_do/'+str(to_do.name)+'/update'
             return HttpResponseRedirect(route)
     else:
         form = NewToDoForm()
+        to_do = ToDo.objects.get(user=request.user, name=to_do)
+        return render(request, 'landing_home/todo_update.html', {'form': form, 'to_do': to_do})
+
+
+def to_dos_schedule(request, to_do):
+    if request.method == 'POST':
+        form = ScheduleForm(request.POST)
+        if form.is_valid():
+            if hasattr(request.user, 'googleauthenication'):
+                creds = jsonpickle.decode(request.user.googleauthenication.credentials)
+            else:
+                creds = None
+            # If an authentication token does not exist already,
+            # create one and store it in the session.
+            if not creds or not creds.valid:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    settings.GOOGLE_CRED, settings.GOOGLE_SCOPE)
+                creds = flow.run_local_server(port=0)
+                auth = GoogleAuthenication(user=request.user, credentials=jsonpickle.encode(creds))
+                auth.save()
+            service = build('calendar', 'v3', credentials=creds)
+
+            # Call the Calendar API
+            # now = datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+
+            body = {"start": {"date": str(form.cleaned_data['start'])[:10]}, "end": {"date": str(form.cleaned_data['end'])[:10]}, "summary": to_do}
+            event = service.events().insert(calendarId='primary', body=body).execute()
+            id = event['id']
+            to_do = ToDo.objects.get(user=request.user, name=to_do)
+            item = ScheduledToDo.objects.create_scheduled_to_do(user=request.user, to_do=to_do, id=id)
+            item.save()
+            route = '/to_dos/'+str(to_do.name)+'/schedule'
+            return HttpResponseRedirect(route)
+    else:
+        form = ScheduleForm()
         to_do = ToDo.objects.get(user=request.user, name=to_do)
         return render(request, 'landing_home/todo_update.html', {'form': form, 'to_do': to_do})
 

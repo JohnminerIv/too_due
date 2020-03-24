@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 {% for task in tasks %}
-<a href="{{ task.name }}/">{{ task.name}}</a>
+<a href="/tasks/{{ task.name }}/update">{{ task.name}}</a>
 {% endfor %}
 <form action="/tasks/" method="post">
     {% csrf_token %}

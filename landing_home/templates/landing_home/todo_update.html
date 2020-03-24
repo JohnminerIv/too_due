@@ -3,13 +3,13 @@
 {% load static %}
 
 {{ to_do.name }} {{ to_do.username }}
-
+<a href='/to_dos/{{ to_do.name }}/schedule'>schedule</a>
 <form action="" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit">
 </form>
-<form class="" action="delete/" method="post">
+<form class="" action="/to_dos/{{ to_do.name }}/delete/" method="post">
     {% csrf_token %}
     <input type="submit" value="delete">
 </form>
