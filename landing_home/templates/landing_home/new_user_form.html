@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<form action="/new_user/" method="post">
+<form action="/user/new/" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit">

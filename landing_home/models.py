@@ -22,18 +22,31 @@ class GoogleAuthenication(models.Model):
 
 
 class NewHobbyForm(forms.Form):
-    hobby_name = forms.CharField(label='Hobby', max_length=100)
+    name = forms.CharField(label='Hobby', max_length=100)
+    enjoyableness = forms.ChoiceField([str(i) for i in range(6)])
+    pref_start = forms.CharField(max_length=5)
+    pref_end = forms.CharField(max_length=5)
+    min_time = forms.CharField(max_length=5)
 
 
 class HobbyManager(models.Manager):
-    def create_hobby(self, name, user):
-        hobby = self.create(name=name, user=user)
+    def create_hobby(self, name, user, enjoyableness, pref_start, pref_end, min_time):
+        hobby = self.create(name=name,
+                            user=user,
+                            enjoyableness=enjoyableness,
+                            pref_start=pref_start,
+                            pref_end=pref_end,
+                            min_time=min_time)
         return hobby
 
 
 class Hobby(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pref_start = models.CharField(max_length=5)
+    pref_end = models.CharField(max_length=5)
+    min_time = models.CharField(max_length=5)
+    enjoyableness = models.CharField(max_length=1)
     objects = HobbyManager()
 
 
@@ -51,18 +64,37 @@ class ScheduledHobby(models.Model):
 
 
 class NewTaskForm(forms.Form):
-    task_name = forms.CharField(label='Task', max_length=100)
+    name = forms.CharField(label='Task', max_length=100)
+    priority = forms.ChoiceField([str(i) for i in range(1, 11)])
+    enjoyableness = forms.ChoiceField([str(i) for i in range(-5, 6)])
+    pref_start = forms.CharField(max_length=5)
+    pref_end = forms.CharField(max_length=5)
+    max_time = forms.CharField(max_length=5)
+    repeated = forms.ChoiceField([str(i) for i in range(1, 30)])
 
 
 class TaskManager(models.Manager):
-    def create_task(self, name, user):
-        task = self.create(name=name, user=user)
+    def create_task(self, name, user, enjoyableness, pref_start, pref_end, max_time, repeated=repeated):
+        task = self.create(name=name,
+                            user=user,
+                            enjoyableness=enjoyableness,
+                            pref_start=pref_start,
+                            pref_end=pref_end,
+                            max_time=max_time,
+                            repeated=repeated,
+                            priority=priority)
         return task
 
 
 class Task(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pref_start = models.CharField(max_length=5)
+    pref_end = models.CharField(max_length=5)
+    min_time = models.CharField(max_length=5)
+    enjoyableness = models.CharField(max_length=1)
+    repeated = models.CharField(max_length=2)
+    priority = models.CharField(max_length=2)
     objects = TaskManager()
 
 
@@ -80,18 +112,40 @@ class ScheduledTask(models.Model):
 
 
 class NewToDoForm(forms.Form):
-    to_do_name = forms.CharField(label='To_do', max_length=100)
+    name = forms.CharField(label='To_do', max_length=100)
+    priority = forms.ChoiceField([str(i) for i in range(1, 11)])
+    enjoyableness = forms.ChoiceField([str(i) for i in range(-5, 6)])
+    pref_start = forms.CharField(max_length=5)
+    pref_end = forms.CharField(max_length=5)
+    max_time = forms.CharField(max_length=5)
+    due_date = forms.DateTimeField()
+    total_time = max_time = forms.CharField(max_length=10)
 
 
 class ToDoManager(models.Manager):
-    def create_to_do(self, name, user):
-        to_do = self.create(name=name, user=user)
+    def create_to_do(self, name, user, enjoyableness, pref_start, pref_end, max_time, priority, due_date, total_time):
+        to_do = self.create(name=name,
+                            user=user,
+                            enjoyableness=enjoyableness,
+                            pref_start=pref_start,
+                            pref_end=pref_end,
+                            max_time=max_time,
+                            priority=priority,
+                            due_date=due_date,
+                            total_time=total_time)
         return to_do
 
 
 class ToDo(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pref_start = models.CharField(max_length=5)
+    pref_end = models.CharField(max_length=5)
+    min_time = models.CharField(max_length=5)
+    enjoyableness = models.CharField(max_length=1)
+    priority = models.CharField(max_length=2)
+    total_time = models.CharField(max_length=10)
+    due_date = models.DateTimeField()
     objects = ToDoManager()
 
 

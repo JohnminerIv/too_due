@@ -97,12 +97,18 @@ def hobbies(request):
             form = NewHobbyForm(request.POST)
             if form.is_valid():
                 try:
-                    hobby = Hobby.objects.get(user=request.user, name=form.cleaned_data['hobby_name'])
+                    hobby = Hobby.objects.get(user=request.user, name=form.cleaned_data['name'])
                 except Exception as e:
                     hobby = None
                 if hobby is not None:
                     return HttpResponse('This hobby exists already')
-                hobby = Hobby.objects.create_hobby(user=request.user, name=form.cleaned_data['hobby_name'])
+                hobby = Hobby.objects.create_hobby(
+                                            user=request.user,
+                                            name=form.cleaned_data['name'],
+                                            enjoyableness=form.cleaned_data['enjoyableness'],
+                                            pref_start=form.cleaned_data['pref_start'],
+                                            pref_end=form.cleaned_data['pref_end'],
+                                            min_time=form.cleaned_data['min_time'])
                 hobby.save()
         form = NewHobbyForm()
         hobbies = Hobby.objects.filter(user=request.user)
@@ -116,6 +122,10 @@ def hobbies_update(request, hobby):
         if form.is_valid():
             hobby = Hobby.objects.get(user=request.user, name=hobby)
             hobby.name = form.cleaned_data['hobby_name']
+            hobby.enjoyableness = form.cleaned_data['enjoyableness']
+            hobby.pref_start = form.cleaned_data['pref_start']
+            hobby.pref_end = form.cleaned_data['pref_end']
+            hobby.min_time = form.cleaned_data['min_time']
             hobby.save()
             route = '/hobbies/'+str(hobby.name)+'/'
             return HttpResponseRedirect(route)
@@ -172,12 +182,20 @@ def tasks(request):
             form = NewTaskForm(request.POST)
             if form.is_valid():
                 try:
-                    task = Task.objects.get(user=request.user, name=form.cleaned_data['task_name'])
+                    task = Task.objects.get(user=request.user,
+                                            name=form.cleaned_data['name'])
                 except Exception as e:
                     task = None
                 if task is not None:
                     return HttpResponse('This task exists already')
-                task = Task.objects.create_task(user=request.user, name=form.cleaned_data['task_name'])
+                task = Task.objects.create_task(user=request.user,
+                                            name=form.cleaned_data['name'],
+                                            enjoyableness=form.cleaned_data['enjoyableness'],
+                                            pref_start=form.cleaned_data['pref_start'],
+                                            pref_end=form.cleaned_data['pref_end'],
+                                            max_time=form.cleaned_data['max_time'],
+                                            priority=form.cleaned_data['priority'],
+                                            repeated=form.cleaned_data['repeated'])
                 task.save()
         form = NewTaskForm()
         tasks = Task.objects.filter(user=request.user)
@@ -190,7 +208,13 @@ def tasks_update(request, task):
         form = NewTaskForm(request.POST)
         if form.is_valid():
             task = Task.objects.get(user=request.user, name=task)
-            task.name = form.cleaned_data['task_name']
+            task.name = form.cleaned_data['name']
+            task.enjoyableness = form.cleaned_data['enjoyableness']
+            task.pref_start = form.cleaned_data['pref_start']
+            task.pref_end = form.cleaned_data['pref_end']
+            task.max_time = form.cleaned_data['max_time']
+            task.priority = form.cleaned_data['priority']
+            task.repeated = form.cleaned_data['repeated']
             task.save()
             route = '/tasks/'+str(task.name)+'/update'
             return HttpResponseRedirect(route)
@@ -247,12 +271,20 @@ def todos(request):
             form = NewToDoForm(request.POST)
             if form.is_valid():
                 try:
-                    to_do = ToDo.objects.get(user=request.user, name=form.cleaned_data['to_do_name'])
+                    to_do = ToDo.objects.get(user=request.user, name=form.cleaned_data['name'])
                 except Exception as e:
                     to_do = None
                 if to_do != None:
                     return HttpResponse('This to_do exists already')
-                to_do = ToDo.objects.create_to_do(user=request.user, name=form.cleaned_data['to_do_name'])
+                to_do = ToDo.objects.create_to_do(user=request.user,
+                                            name=form.cleaned_data['name'],
+                                            enjoyableness=form.cleaned_data['enjoyableness'],
+                                            pref_start=form.cleaned_data['pref_start'],
+                                            pref_end=form.cleaned_data['pref_end'],
+                                            max_time=form.cleaned_data['max_time'],
+                                            priority=form.cleaned_data['priority'],
+                                            total_time=form.cleaned_data['total_time'],
+                                            due_date=form.cleaned_data['due_date'])
                 to_do.save()
         form = NewToDoForm()
         to_dos = ToDo.objects.filter(user=request.user)
@@ -265,7 +297,14 @@ def to_dos_update(request, to_do):
         form = NewToDoForm(request.POST)
         if form.is_valid():
             to_do = ToDo.objects.get(user=request.user, name=to_do)
-            to_do.name = form.cleaned_data['to_do_name']
+            to_do.name = form.cleaned_data['name']
+            to_do.enjoyableness = form.cleaned_data['enjoyableness']
+            to_do.pref_start = form.cleaned_data['pref_start']
+            to_do.pref_end = form.cleaned_data['pref_end']
+            to_do.max_time = form.cleaned_data['max_time']
+            to_do.priority = form.cleaned_data['priority']
+            to_do.total_time=form.cleaned_data['total_time'],
+            to_do.due_date=form.cleaned_data['due_date']
             to_do.save()
             route = '/to_do/'+str(to_do.name)+'/update'
             return HttpResponseRedirect(route)
