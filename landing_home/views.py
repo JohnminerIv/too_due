@@ -39,8 +39,8 @@ def index(request):
                                             orderBy='startTime').execute()
         events = events_result.get('items', [])
 
-        return HttpResponse(f'Hello {request.user} {event} <a href="/user/logout/">Logout</a>')
-    return render(request, 'landing_home/index.html')
+        return render(request, 'landing_home/index.html', {'user': request.user})
+    return render(request, 'landing_home/index.html', {'user': request.user})
 
 
 def user_login(request):
@@ -50,7 +50,7 @@ def user_login(request):
             user = authenticate(request, username=form.cleaned_data['your_username'], password=form.cleaned_data['your_password'])
             if user is not None:
                 login(request, user)
-                return HttpResponse(f'{request.user}')
+                return HttpResponseRedirect('/')
             else:
                 return HttpResponse('is valid but not a user')
         else:
@@ -75,7 +75,7 @@ def new_user(request):
                                                 username=form.cleaned_data['your_username'],
                                                 password=form.cleaned_data['your_password'])
                 user.save()
-                return HttpResponseRedirect('/user_login/')
+                return HttpResponseRedirect('/user/login/')
             else:
                 return HttpResponse('is valid but username already in use')
         else:
@@ -111,7 +111,7 @@ def hobbies(request):
                                             min_time=form.cleaned_data['min_time'])
                 hobby.save()
         form = NewHobbyForm()
-        hobbies = Hobby.objects.filter(user=request.user)
+        hobbies = []
         return render(request, 'landing_home/hobby.html', {'form': form, 'hobbies': hobbies})
     return HttpResponse('Please make an account')
 

@@ -14,7 +14,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">R.I.T.H.M</a>
+            <a class="navbar-brand" href="#">Too-due</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -24,11 +24,23 @@
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/note_identification/">Note Identification</a>
+                        <a class="nav-link" href="/hobbies/">Hobbies</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/pitch_identification/">Pitch Identification</a>
+                        <a class="nav-link" href="/tasks/">Tasks</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/to_dos/">To-dos</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/logout/">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/login/">Login</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

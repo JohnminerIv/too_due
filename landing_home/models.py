@@ -23,10 +23,10 @@ class GoogleAuthenication(models.Model):
 
 class NewHobbyForm(forms.Form):
     name = forms.CharField(label='Hobby', max_length=100)
-    enjoyableness = forms.ChoiceField()
-    pref_start = forms.CharField(max_length=5)
-    pref_end = forms.CharField(max_length=5)
-    min_time = forms.CharField(max_length=5)
+    enjoyableness = forms.ChoiceField(label='enjoyableness')
+    pref_start = forms.CharField(label='Preffered start time', max_length=5)
+    pref_end = forms.CharField(label='Preffered end time', max_length=5)
+    min_time = forms.CharField(label='Minimum time needed', max_length=5)
 
 
 class HobbyManager(models.Manager):
