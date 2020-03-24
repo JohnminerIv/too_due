@@ -23,7 +23,7 @@ class GoogleAuthenication(models.Model):
 
 class NewHobbyForm(forms.Form):
     name = forms.CharField(label='Hobby', max_length=100)
-    enjoyableness = forms.ChoiceField([str(i) for i in range(6)])
+    enjoyableness = forms.ChoiceField()
     pref_start = forms.CharField(max_length=5)
     pref_end = forms.CharField(max_length=5)
     min_time = forms.CharField(max_length=5)
@@ -65,16 +65,16 @@ class ScheduledHobby(models.Model):
 
 class NewTaskForm(forms.Form):
     name = forms.CharField(label='Task', max_length=100)
-    priority = forms.ChoiceField([str(i) for i in range(1, 11)])
-    enjoyableness = forms.ChoiceField([str(i) for i in range(-5, 6)])
+    priority = forms.ChoiceField()
+    enjoyableness = forms.ChoiceField()
     pref_start = forms.CharField(max_length=5)
     pref_end = forms.CharField(max_length=5)
     max_time = forms.CharField(max_length=5)
-    repeated = forms.ChoiceField([str(i) for i in range(1, 30)])
+    repeated = forms.ChoiceField()
 
 
 class TaskManager(models.Manager):
-    def create_task(self, name, user, enjoyableness, pref_start, pref_end, max_time, repeated=repeated):
+    def create_task(self, name, user, enjoyableness, pref_start, pref_end, max_time, repeated):
         task = self.create(name=name,
                             user=user,
                             enjoyableness=enjoyableness,
@@ -113,8 +113,8 @@ class ScheduledTask(models.Model):
 
 class NewToDoForm(forms.Form):
     name = forms.CharField(label='To_do', max_length=100)
-    priority = forms.ChoiceField([str(i) for i in range(1, 11)])
-    enjoyableness = forms.ChoiceField([str(i) for i in range(-5, 6)])
+    priority = forms.ChoiceField()
+    enjoyableness = forms.ChoiceField()
     pref_start = forms.CharField(max_length=5)
     pref_end = forms.CharField(max_length=5)
     max_time = forms.CharField(max_length=5)

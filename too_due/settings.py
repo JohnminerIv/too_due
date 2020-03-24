@@ -25,7 +25,7 @@ SECRET_KEY = '@e@hvw$wr)c_c(3y^!(f#yr-62@9uih8^!981045b=yiq5_9id'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['fast-depths-39706.herokuapp.com']
+ALLOWED_HOSTS = ['fast-depths-39706.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
