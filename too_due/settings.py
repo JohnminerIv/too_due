@@ -131,7 +131,5 @@ GOOGLE_SCOPE = 'https://www.googleapis.com/auth/calendar'
 
 GOOGLE_CRED = "credentials.json"
 
-# This should already be in your settings.py
-django_heroku.settings(locals())
 # This is new
 del DATABASES['default']['OPTIONS']['sslmode']
