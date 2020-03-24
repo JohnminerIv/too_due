@@ -1,1 +1,1 @@
-web: gunicorn myproject.wsgi
+web: gunicorn too_due.wsgi:application --preload --workers 1
